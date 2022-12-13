@@ -7,7 +7,7 @@ class Cliente():
     self.__apellido=apellido
     self.__dni=dni
     self.__correo=correo
-    self.__direccion=""
+    self.__direccion=[]
 
   def __str__(self):
     cadena=self.__id_cliente+" "+"/n"+self.__nombre+"/n"+self.__apellido+"/n"+str(self.__dni)+"/n"+self.__correo
@@ -25,6 +25,9 @@ class Cliente():
   @property
   def correo(self):
     return self.__correo
+  @property
+  def direccion(self):
+    return self.__direccion
 
   @nombre.setter
   def nombre(self, nuevoValor):
@@ -38,6 +41,9 @@ class Cliente():
   @correo.setter
   def correo(self, nuevoValor):
     self.__correo=nuevoValor
+  @direccion.setter
+  def direccion(self, nuevoValor):
+    self.__direccion=nuevoValor
     
   def insertar_CL(self):
     datosC=(self.nombre,self.apellido, self.dni,self.correo)
@@ -52,9 +58,20 @@ class Cliente():
     conexion=Conexion("BaseDatos\superMarket.db")
     conexion.read(f"SELECT * FROM cliente WHERE id_cliente={self.__id_cliente}") 
 
+  def insertar_Dir(self):
+    datos=self.direccion
+    conexion=Conexion("BaseDatos\superMarket.db")
+    conexion.insert("INSERT INTO direccion (calle,altura,localidad,provincia,codigoPostal) VALUES (?,?,?,?,?)", datos)
+    
+  def modificar_Dir(self):
+    datos=self.direccion
+    conexion=Conexion("BaseDatos\superMarket.db")
+    conexion.update("UPDATE direccion SET calle=?, altura=?,localidad=?, provincia=?, codigoPostal=?  WHERE id_direccion=?", datos)
+    pass
 
-#cliente=Cliente("", "Prueba2", "Prueba2", 12345678, "prueba2@gmail.com")
+cliente=Cliente("", "Prueba2", "Prueba2", 12345678, "prueba2@gmail.com")
 #cliente.insertar_CL()
 #cliente.eliminar_CL()
 #cliente.consulta_CL()
 #print(cliente)
+cliente.insertar_Dir()

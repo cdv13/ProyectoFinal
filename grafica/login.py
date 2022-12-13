@@ -86,8 +86,7 @@ class Login:
     def Ingresar_command(self):
         us=self.usuarioEntry.get()
         clave=self.contrasenaEntry.get()
-
-        self.u=Usuario("NULL", us, clave)
+        self.u=Usuario(us, clave)
         
         if self.u.consulta_US():
             if self.u.consulta_tipo()==1:
@@ -103,7 +102,7 @@ class Login:
         #print(password)
 
     def Registro_command(self):
-        v=Registro(tk.Tk())
+        v=Registro(tk.Tk(), "Registro", "Registro de Usuario", "Super Market \nBienvenido" )
         
         
 

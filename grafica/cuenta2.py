@@ -3,13 +3,22 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import messagebox
 
+from registro import Registro
+
 
 
 class Cuenta():
     def __init__(self, root):
         self.root=root
         self.root.title("Mi Cuenta")
-        #root.geometry("610x400")
+        #setting window size
+        width=600
+        height=500
+        screenwidth = self.root.winfo_screenwidth()
+        screenheight = self.root.winfo_screenheight()
+        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+        self.root.geometry(alignstr)
+        self.root.resizable(width=False, height=False)
 
 
         #________________fram3____________para mostrar lo de los botones
@@ -66,15 +75,36 @@ class Cuenta():
         
         #Agrego los elementos en cada pestaña(funcionalidades)
         #Ventana principal
-        self.titulo=tk.Label(self.p1,text="Prueba Ventana Usuario", bg="bisque3")
+        self.titulo=tk.Label(self.p1,text="Ventana Usuario", bg="bisque3")
         self.titulo.pack(expand=1)
 
         #Ventana perfil
+        self.nombre=tk.Label(self.p2, text="Nombre")
+        self.nombre.pack(expand=1)
+
+        self.dni=tk.Label(self.p2, text="DNI")
+        self.dni.pack(expand=1)
+
+        self.correo=tk.Label(self.p2, text="Correo Electronico")
+        self.correo.pack(expand=1)
+
+        self.editar=tk.Button(self.p2, text="Editar", command=self.irRegistro)
+        self.editar.pack(expand=1)
+
         #Ventana Direccion
-        self.dir=tk.Label(self.p3, text="Direccion: xxxxxxxxxxx")
+        self.dir=tk.Label(self.p3, text="Direccion")
         self.dir.pack(expand=1)
+
+        self.editar=tk.Button(self.p3, text="Editar", command=self.editDir)
+        self.editar.pack(expand=1)
+        
         #Ventana Pedidos
+        self.pedidos=tk.Label(self.p4, text="Listado de Pedidos")
+        self.pedidos.pack(expand=1)
+        
         #Ventana Comprobantes
+        self.comprobantes=tk.Label(self.p5, text="Lista de Comprobantes")
+        self.comprobantes.pack(expand=1)
 
         #creo boton cerrar sesion
         self.cerrar=tk.Button(self.frame2,text="Cerrar Sesion",command=self.cerrarSesion)
@@ -96,8 +126,12 @@ class Cuenta():
 
     def pantallaComprobantes(self):
         self.panel.select([self.p5])
-        
+    
+    def irRegistro(self):
+        v=Registro(tk.Tk(), "Editar Datos", "Edicion",  "Super Market \n Perfil Usuario" )
 
+    def editDir(self):
+        pass
 
 if __name__ == "__main__":
     root = tk.Tk()

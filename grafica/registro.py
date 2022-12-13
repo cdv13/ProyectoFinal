@@ -9,10 +9,10 @@ from cliente import Cliente
 from usuario import Usuario
 
 class Registro(tk.Toplevel):
-    def __init__(self, root):
+    def __init__(self, root, textFrame, text, textTitulo):
         #setting title
         self.root=root
-        self.root.title("Registro")
+        self.root.title(text)
         #setting window size
         width=450
         height=360
@@ -23,14 +23,14 @@ class Registro(tk.Toplevel):
         self.frame1=tk.LabelFrame(self.root, width=350, height=100, bg="bisque3" )
         self.frame1.pack()
 
-        self.titulo=tk.Label(self.frame1, text="Super Market \nBienvenido")
+        self.titulo=tk.Label(self.frame1, text=textTitulo)
         self.titulo.config(font=font_f1)
         self.titulo.place(rely=0.5, relx=0.5, anchor="center")
         
         #________________frame2______________________
         font_f2=("Helvetica", 10)
 
-        self.frame2=tk.LabelFrame(self.root, text="Registro de Usuario",width=350, height=350, bg="bisque3" )
+        self.frame2=tk.LabelFrame(self.root, text=textFrame,width=350, height=350, bg="bisque3" )
         self.frame2.config(font=font_f2)
         self.frame2.pack()
 
@@ -89,7 +89,7 @@ class Registro(tk.Toplevel):
         self.Cancel.place(x=110,y=250,width=70,height=25)
         self.Cancel["command"] = self.Cancel_command
 
-        self.Crear=tk.Button(self.frame2, text="Crear")
+        self.Crear=tk.Button(self.frame2, text="Guardar")
         self.Crear.config(font=font_f2)
         self.Crear.place(x=200,y=250,width=70,height=25)
         self.Crear["command"] = self.Crear_command
@@ -106,7 +106,7 @@ class Registro(tk.Toplevel):
         try:
             self.c=Cliente("NULL", self.nombreEntry.get(),self.apellidoEntry.get(),self.dniEntry.get(),self.correoEntry.get())
             self.c.insertar_CL()
-            self.u=Usuario("NULL", self.correoEntry.get(),self.contrasenaEntry.get())
+            self.u=Usuario(self.correoEntry.get(),self.contrasenaEntry.get())
             self.u.insertar_US()
             
             messagebox.showinfo("BBDD", "Registro insertado con exito")

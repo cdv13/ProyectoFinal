@@ -64,13 +64,31 @@ class Producto():
   
   def mostrar(self):
     conexion=Conexion("BaseDatos\superMarket.db")
-    productos=conexion.read(f"SELECT * FROM producto")
+    productos=conexion.read("SELECT * FROM producto")
     return productos
-    
+  
+  def mostrarfiltrado(self):
+    conexion=Conexion("BaseDatos\superMarket.db")
+    productos=conexion.read(f"SELECT * FROM producto WHERE categoria='{self.categoria}'")
+    return productos
 
+  def mostrarbusqueda(self, nombre):
+  
+    conexion=Conexion("BaseDatos\superMarket.db")
+    productos=conexion.read(f'SELECT * FROM producto WHERE nombre LIKE "{nombre}%"')
+    return productos
 
-producto=Producto(35,"Dentifrico","Dentrifico Kolgate 100 gr",350,730,"Perfumeria") 
+  def modificarStock(self):
+    datos=(self.stock, self.id_producto)
+    conexion=Conexion("BaseDatos\superMarket.db")
+    conexion.update("UPDATE producto SET stock=?  WHERE id_producto=?", datos)
+  
+
+producto=Producto(25,"Aceite","",0,300,"") 
 #producto.insert()
 #producto.eliminar()
-producto.modificar()
+#producto.modificar()
 #print(producto.mostrar())
+#print(producto.mostrarfiltrado())
+#producto.modificarStock() 
+print(producto.mostrarbusqueda("Aceite"))

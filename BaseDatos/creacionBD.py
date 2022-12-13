@@ -45,11 +45,10 @@ def main():
                                 ); """
 
     create_usuario_table = """CREATE TABLE IF NOT EXISTS usuario(
-                                    id_usuario INTEGER primary key autoincrement,
-                                    nombre_US TEXt, 
-                                    clave INTEGER, 
-                                    tipo INTEGER NOY NULL DEFAULT 1, 
-                                    FOREIGN KEY (nombre_US) REFERENCES cliente(correo)
+                                    id_usuario TEXT primary key,
+                                    clave INTEGER ,
+                                    tipo INTEGER DEFAULT 1,
+                                    FOREIGN KEY (id_usuario) REFERENCES cliente(correo)
                                 );"""
 
     create_cliente_table = """CREATE TABLE IF NOT EXISTS cliente(

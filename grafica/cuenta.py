@@ -8,7 +8,7 @@ from tkinter import messagebox
 class Cuenta():
     def __init__(self, root):
         self.root=root
-        self.root.title("Mi Cuenta")
+        self.root.title("Perfil Usuario")
         #root.geometry("610x400")
 
 
