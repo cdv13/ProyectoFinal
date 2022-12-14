@@ -68,10 +68,11 @@ def main():
                                     FOREIGN KEY(id_cliente) REFERENCES cliente(id_cliente)
                                 );"""
 
-    create_detalle_venta_table = """CREATE TABLE IF NOT EXISTS detalle_venta(
-                                    id_venta INTEGER, cantidad INTEGER, 
+    create_carrito_table = """CREATE TABLE IF NOT EXISTS carrito(
+                                    id_carrito INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                                     id_producto INTEGER,
-                                    FOREIGN KEY(id_venta) REFERENCES venta(id_venta), 
+                                    cantidad INTEGER,
+                                    subTotal REAL, 
                                     FOREIGN KEY(id_producto) REFERENCES producto(id_producto)
                                 );"""  
 

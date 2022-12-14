@@ -156,8 +156,7 @@ class Compra(tk.Frame):
         
 
     def agregarCarrito(self):
-        #Tener en cuenta q no se pueden agregar mas de 30 prod
-        #hay que poner la cantidad
+        #Falta el control de stock
         item=self.tree.focus()
         valores=self.tree.item(item)["values"]
         producto=self.tree.item(item)["text"] #Para que me ponga el id

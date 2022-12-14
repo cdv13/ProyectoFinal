@@ -112,12 +112,14 @@ class Carrito(tk.Frame):
         self.mostrarProd()
 
     def confirmarCompra(self):
-        
+        #Al confirmar hacer control stock
 
         #self.c=CarritoCompra(0, 0, stock, 0)
         #self.c.modificarStock()
         pass
     '''
+    venta['fecha'] = datetime.now()
+    ventas.append(venta)
         cursor.execute("SELECT * FROM productos")
     productos = cursor.fetchall()
 
