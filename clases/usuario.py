@@ -1,4 +1,7 @@
-from conexion import Conexion
+from pathlib import Path
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
+from clases.conexion import Conexion
 
 class Usuario():
   def __init__(self,id_usuario,clave): 
@@ -53,8 +56,13 @@ class Usuario():
     conexion=Conexion("BaseDatos\superMarket.db")
     conexion.delete(f"DELETE FROM usuario WHERE id_usuario='{self.__id_usuario}'")
 
-#usuario=Usuario("marco@gmail.com",1234)
+  def consultarCliente(self):
+    conexion=Conexion("BaseDatos\superMarket.db")
+    dato=conexion.read(f"SELECT id_cliente FROM cliente INNER JOIN usuario WHERE correo='{self.id_usuario}'")
+    return dato[0][0]
+
+#usuario=Usuario("sandra@gmail.com",1234)
 #usuario.insertar_US()
 #usuario.eliminar_US()
 #usuario.consulta_tipo()
-#print(usuario.consulta_US())
+#print(usuario.consultarCliente())

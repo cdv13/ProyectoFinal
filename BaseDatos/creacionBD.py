@@ -39,7 +39,7 @@ def main():
                                     id_producto INTEGER primary key autoincrement, 
                                     nombre TEXT, 
                                     descripcion TEXT, 
-                                    precio_venta REAL, 
+                                    precio REAL, 
                                     stock INTEGER,
                                     categoria TEXT
                                 ); """
@@ -61,21 +61,6 @@ def main():
                                     FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion)
                                 );"""
 
-    create_venta_table = """ CREATE TABLE IF NOT EXISTS venta(
-                                    id_venta INTEGER primary key autoincrement, 
-                                    fecha DATE, 
-                                    id_cliente INTEGER, 
-                                    FOREIGN KEY(id_cliente) REFERENCES cliente(id_cliente)
-                                );"""
-
-    create_carrito_table = """CREATE TABLE IF NOT EXISTS carrito(
-                                    id_carrito INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                                    id_producto INTEGER,
-                                    cantidad INTEGER,
-                                    subTotal REAL, 
-                                    FOREIGN KEY(id_producto) REFERENCES producto(id_producto)
-                                );"""  
-
     create_direccion_table = """CREATE TABLE IF NOT EXISTS direccion(
                                     id_direccion INTEGER primary key autoincrement, 
                                     calle TEXT,
@@ -84,7 +69,34 @@ def main():
                                     provincia TEXT,
                                     codidoPostal TEXT
                                 );"""
+    
 
+    create_venta_table = """ CREATE TABLE IF NOT EXISTS venta(
+                                    id_venta INTEGER primary key autoincrement, 
+                                    fecha TEXT, 
+                                    id_cliente INTEGER,
+                                    FOREIGN KEY(id_cliente) REFERENCES cliente(id_cliente)
+                                );"""
+
+    create_detalleVenta_table = """ CREATE TABLE IF NOT EXISTS detalleVenta(
+                                    id_detalleVenta INTEGER primary key autoincrement,
+                                    id_venta INTEGER,
+                                    id_producto INTEGER,
+                                    cantidad INTEGER,
+                                    precioVenta REAL,
+                                    FOREIGN KEY(id_producto) REFERENCES producto(id_producto),
+                                    FOREIGN KEY(id_venta) REFERENCES venta(id_venta)
+                                );"""  
+    
+    #La tabla carrito se comporta como un almacen temporal, una vez que se genera la orden, se elimina
+    create_carrito_table = """CREATE TABLE IF NOT EXISTS carrito(
+                                    id_carrito INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                                    id_cliente INTEGER,
+                                    id_producto INTEGER,
+                                    cantidad INTEGER,
+                                    FOREIGN KEY(id_producto) REFERENCES producto(id_producto),
+                                    FOREIGN KEY(id_cliente) REFERENCES cliente(id_cliente)
+                                );"""
 
     # crear  coneccion a base de datos
     conexion=creacionBD(database)
@@ -100,9 +112,11 @@ def main():
 
         create_table(conexion, create_venta_table)
 
-        create_table(conexion, create_detalle_venta_table)
+        create_table(conexion, create_detalleVenta_table)
 
         create_table(conexion, create_direccion_table)
+        
+        create_table(conexion, create_carrito_table)
 
         print("Base de Datos Creada")
         

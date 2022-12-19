@@ -1,4 +1,7 @@
-from conexion import Conexion
+from pathlib import Path
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
+from clases.conexion import Conexion
 
 class Producto():
   def __init__(self, id_producto:int,nombre:str,descripcion:str,precio:float,stock:int, categoria:str):
@@ -51,7 +54,7 @@ class Producto():
   def insertar(self):
     datos=(self.__nombre,self.__descripcion,self.__precio,self.__stock, self.__categoria)
     conexion=Conexion("BaseDatos\superMarket.db")
-    conexion.insert("INSERT INTO producto (nombre,descripcion,precio_venta,stock,categoria) VALUES (?,?,?,?,?)", datos)
+    conexion.insert("INSERT INTO producto (nombre,descripcion,precio,stock,categoria) VALUES (?,?,?,?,?)", datos)
 
   def eliminar(self):
     conexion=Conexion("BaseDatos\superMarket.db")
@@ -60,7 +63,7 @@ class Producto():
   def modificar(self):
     datos=(self.nombre, self.descripcion, self.precio, self.stock,self.categoria, self.__id_producto)
     conexion=Conexion("BaseDatos\superMarket.db")
-    conexion.update("UPDATE producto SET nombre=?, descripcion=?,precio_venta=?, stock=?, categoria=?  WHERE id_producto=?", datos)
+    conexion.update("UPDATE producto SET nombre=?, descripcion=?,precio=?, stock=?, categoria=?  WHERE id_producto=?", datos)
   
   def mostrar(self):
     conexion=Conexion("BaseDatos\superMarket.db")
@@ -73,18 +76,17 @@ class Producto():
     return productos
 
   def mostrarbusqueda(self, nombre):
-  
     conexion=Conexion("BaseDatos\superMarket.db")
     productos=conexion.read(f'SELECT * FROM producto WHERE nombre LIKE "{nombre}%"')
     return productos
 
   def modificarStock(self):
-    datos=(self.stock, self.id_producto)
+    datos=(self.stock, self.__id_producto)
     conexion=Conexion("BaseDatos\superMarket.db")
-    conexion.update("UPDATE producto SET stock=?  WHERE id_producto=?", datos)
+    conexion.update(f"UPDATE producto SET stock=stock-?  WHERE id_producto=?", datos)
   
 
-producto=Producto(25,"Aceite","",0,300,"") 
+#producto=Producto(25,"Aceite","",0,300,"") 
 #producto.insert()
 #producto.eliminar()
 #producto.modificar()

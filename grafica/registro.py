@@ -1,19 +1,22 @@
 import tkinter as tk
 import tkinter.font as tkFont
-from tkinter import messagebox
+from tkinter import messagebox, StringVar, IntVar
 
 
+#importacion de modulos propios de otra carpeta
+from pathlib import Path
 import sys
-sys.path.append('d:\\00_CURSOS\\2022_Curso_Python_SALTA\\ProyectoFinal\\clases')
-from cliente import Cliente
-from usuario import Usuario
+sys.path.append(str(Path(__file__).parent.parent))
+from clases.cliente import Cliente
+from clases.usuario import Usuario
+
 
 class Registro(tk.Toplevel):
     def __init__(self, root, textFrame, text, textTitulo):
         #setting title
         self.root=root
         self.root.title(text)
-        #setting window size
+        
         width=450
         height=360
 
@@ -35,10 +38,10 @@ class Registro(tk.Toplevel):
         self.frame2.pack()
 
         
-        #Creo StringVar para administrar las entry
+        #Creo Variables de control para administrar las entry
         self.sNombre=tk.StringVar()
         self.sApellido=tk.StringVar()
-        self.sDNI=tk.StringVar()
+        self.sDNI=tk.IntVar()
         self.sCorreo=tk.StringVar()
         self.sPass=tk.StringVar()
         
@@ -101,12 +104,10 @@ class Registro(tk.Toplevel):
 
 
     def Crear_command(self):
-        #datosC=("NULL", self.nombreEntry.get(),self.apellidoEntry.get(),self.dniEntry.get(),self.correoEntry.get())
-        #datosU=("NULL", self.correoEntry.get(),self.contrasenaEntry.get())
         try:
-            self.c=Cliente("NULL", self.nombreEntry.get(),self.apellidoEntry.get(),self.dniEntry.get(),self.correoEntry.get())
+            self.c=Cliente("NULL", self.sNombre.get(),self.sApellido.get(),self.sDNI.get(),self.sCorreo.get())
             self.c.insertar_CL()
-            self.u=Usuario(self.correoEntry.get(),self.contrasenaEntry.get())
+            self.u=Usuario(self.sCorreo.get(),self.sPass.get())
             self.u.insertar_US()
             
             messagebox.showinfo("BBDD", "Registro insertado con exito")
@@ -114,10 +115,11 @@ class Registro(tk.Toplevel):
         except:
             messagebox.showwarning("BBDD", "Usuario no Registrado, intente nuevamente")
             self.root.destroy()
-        #print(datosC)
+        
 
-
+'''
 if __name__ == "__main__":
     root = tk.Tk()
     app = Registro(root)
     root.mainloop()
+'''

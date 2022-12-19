@@ -14,7 +14,9 @@ class Conexion:
       self.__cursor=self.__conexion.cursor()
       self.__cursor.execute(consulta,datos)
       self.__conexion.commit()
+      idGuardado=self.__cursor.lastrowid
       self.__conexion.close()
+      return idGuardado
     except Error as e:
       print(e)
 

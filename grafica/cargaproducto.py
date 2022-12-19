@@ -1,10 +1,12 @@
 import tkinter as tk
 import tkinter.font as tkFont
-from tkinter import Scrollbar, messagebox
+from tkinter import Scrollbar, messagebox, StringVar, DoubleVar, IntVar
 
+#Importacio de modulos propios
+from pathlib import Path
 import sys
-sys.path.append('d:\\00_CURSOS\\2022_Curso_Python_SALTA\\ProyectoFinal\\clases')
-from producto import Producto 
+sys.path.append(str(Path(__file__).parent.parent))
+from clases.producto import Producto 
 
 class Carga(tk.Toplevel):
     def __init__(self, root,tituloFrame, titulo,frame_root,editar=None):
@@ -45,12 +47,19 @@ class Carga(tk.Toplevel):
         self.frame2.config(font=font_f2)
         self.frame2.pack()
         
+        #Creo las Strinvar
+        self.sId=IntVar(self.frame2, value="")
+        self.sNombre=StringVar(self.frame2)
+        self.sPrecio=DoubleVar(self.frame2, value="")
+        self.sCantidad=IntVar(self.frame2, value="")
+        self.sCategoria=StringVar(self.frame2)
+
         #Creo los Widgets
         self.id=tk.Label(self.frame2, text="Id")
         self.id.config(font=font_f2)
         self.id.place(x=10,y=10,width=80,height=25)
 
-        self.idEntry=tk.Entry(self.frame2)
+        self.idEntry=tk.Entry(self.frame2, textvariable=self.sId)
         self.idEntry.config(font=font_f2)
         self.idEntry.insert('0', editar[0])
         self.idEntry.place(x=150,y=10, width=200,height=25)
@@ -59,7 +68,7 @@ class Carga(tk.Toplevel):
         self.nombre.config(font=font_f2)
         self.nombre.place(x=10,y=40,width=80,height=25)
 
-        self.nombreEntry=tk.Entry(self.frame2)
+        self.nombreEntry=tk.Entry(self.frame2, textvariable=self.sNombre)
         self.nombreEntry.config(font=font_f2)
         self.nombreEntry.focus() #para q salga el tilde
         self.nombreEntry.insert('0', editar[1])
@@ -84,7 +93,7 @@ class Carga(tk.Toplevel):
         self.precio.config(font=font_f2)
         self.precio.place(x=10,y=225,width=80,height=25)
         
-        self.precioEntry=tk.Entry(self.frame2)
+        self.precioEntry=tk.Entry(self.frame2, textvariable=self.sPrecio)
         self.precioEntry.config(font=font_f2)
         self.precioEntry.insert('0', editar[3])
         self.precioEntry.place(x=150,y=225,width=200,height=25)
@@ -93,7 +102,7 @@ class Carga(tk.Toplevel):
         self.cantidad.config(font=font_f2)
         self.cantidad.place(x=10,y=255,width=80,height=25)
         
-        self.cantidadEntry=tk.Entry(self.frame2)
+        self.cantidadEntry=tk.Entry(self.frame2, textvariable=self.sCantidad)
         self.cantidadEntry.config(font=font_f2)
         self.cantidadEntry.insert('0', editar[4])
         self.cantidadEntry.place(x=150,y=255,width=200,height=25)
@@ -102,7 +111,7 @@ class Carga(tk.Toplevel):
         self.categoria.config(font=font_f2)
         self.categoria.place(x=10,y=285,width=80,height=25)
         
-        self.categoriaEntry=tk.Entry(self.frame2)
+        self.categoriaEntry=tk.Entry(self.frame2, textvariable=self.sCategoria)
         self.categoriaEntry.config(font=font_f2)
         self.categoriaEntry.insert('0', editar[5])
         self.categoriaEntry.place(x=150,y=285,width=200,height=25)
@@ -128,7 +137,7 @@ class Carga(tk.Toplevel):
         self.Actualizar.place(relx=0.7,rely=0.1,width=80,height=40)
         self.Actualizar["command"] = self.actualizar_command
 
-        #self.data=[]
+        
     #_________________________Creo las Funciones__________________________________
 
     def cancelar_command(self):
@@ -136,8 +145,10 @@ class Carga(tk.Toplevel):
         
 
     def guardar_command(self):
-        if len(self.nombreEntry.get())!=0 and len(self.descripcionText.get("1.0", "end"))!=0 and len(self.precioEntry.get())!=0 and len(self.cantidadEntry.get())!=0 and len(self.categoriaEntry.get())!=0:
-            p=Producto("NULL",self.nombreEntry.get(),self.descripcionText.get("1.0", "end"),self.precioEntry.get(),self.cantidadEntry.get(), self.categoriaEntry.get())
+        self.datos=(self.sNombre.get(),self.descripcionText.get("1.0", "end"),self.sPrecio.get(),self.sCantidad.get(), self.sCategoria.get())
+        
+        if self.datos!="":
+            p=Producto("NULL",self.sNombre.get(),self.descripcionText.get("1.0", "end"),self.sPrecio.get(),self.sCantidad.get(), self.sCategoria.get())
             p.insertar()
             messagebox.showinfo("BBDD", "Registro insertado con exito")
             self.frame_root.mostrarProd()
@@ -147,11 +158,11 @@ class Carga(tk.Toplevel):
         
     
     def actualizar_command(self):
-        self.datos=(self.idEntry, self.nombreEntry.get(),self.descripcionText.get("1.0", "end"),self.precioEntry.get(),self.cantidadEntry.get(), self.categoriaEntry.get())
-        print("actual",self.datos)
+        self.datos=(self.idEntry, self.sNombre.get(),self.descripcionText.get("1.0", "end"),self.sPrecio.get(),self.sCantidad.get(), self.sCategoria.get())
+        
         if self.datos != "":
-        #if len(self.nombreEntry.get())!=0 and len(self.descripcionText.get("1.0", "end"))!=0 and len(self.precioEntry.get())!=0 and len(self.cantidadEntry.get())!=0 and len(self.categoriaEntry.get())!=0:
-            p=Producto(int(self.idEntry.get()),self.nombreEntry.get(),self.descripcionText.get("1.0", "end"),float(self.precioEntry.get()),int(self.cantidadEntry.get()), self.categoriaEntry.get())
+        
+            p=Producto(int(self.idEntry.get()),self.sNombre.get(),self.descripcionText.get("1.0", "end"),self.sPrecio.get(),self.sCantidad.get(), self.sCategoria.get())
             p.modificar()
             messagebox.showinfo("BBDD", "Registro actualizado con exito")
             self.frame_root.mostrarProd()
@@ -159,21 +170,9 @@ class Carga(tk.Toplevel):
         else:
             messagebox.showinfo("BBDD", "No se actualizo el Registro")
     
-
+'''
 if __name__ == "__main__":
     root = tk.Tk()
     app = Carga(root,"","")
     root.mainloop()
-
-
-'''
-Tambien en vez de hacr un popUP, puedo crear un mensaje,q se ejecute en la
-el mismo cuerpo de la ventana, (abajo de la tabla x ej), y en las funciones
-cambio el texto.
-
-self.mensaje.grid(row=3, column=0, columnspam=2, sticky=WE)
-
-lo q iria en las funciones seria
-
-self.mensaje['text']= "producto {} agregado con exito".format(self.sNombre.get())
 '''

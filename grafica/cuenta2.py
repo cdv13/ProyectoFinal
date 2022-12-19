@@ -1,14 +1,20 @@
 from tkinter import ttk
 import tkinter as tk
 import tkinter.font as tkFont
-from tkinter import messagebox
+from tkinter import messagebox,StringVar,IntVar
 
 from registro import Registro
+from ventanadir import VentanaDir
+
+#Importacio de modulos propios
+#from pathlib import Path
+#import sys
+#sys.path.append(str(Path(__file__).parent.parent.parent))
 
 
 
-class Cuenta():
-    def __init__(self, root):
+class Cuenta(tk.Frame):
+    def __init__(self, root,cliente, correo):
         self.root=root
         self.root.title("Mi Cuenta")
         #setting window size
@@ -19,6 +25,8 @@ class Cuenta():
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
         self.root.geometry(alignstr)
         self.root.resizable(width=False, height=False)
+        self.cliente=cliente
+        self.correo=correo
 
 
         #________________fram3____________para mostrar lo de los botones
@@ -35,14 +43,16 @@ class Cuenta():
 
         #Creo menu con notebook
         #Creo los Botones
+        self.etiquetaUS=tk.Label(self.frame1, text=f"{self.correo}")
         self.perfil=tk.Button(self.frame1,text="Perfil",command=self.pantallaPerfil)
         self.direccion=tk.Button(self.frame1,text="Direccion",command=self.pantallaDireccion)
         self.pedidos=tk.Button(self.frame1,text="Pedidos",command=self.pantallaPedidos)
         self.comprobantes=tk.Button(self.frame1,text="Comprobantes",command=self.pantallaComprobantes)
-        self.perfil.place(relx=0.1, rely=0, width=140, height=30)
-        self.direccion.place(relx=0.1, rely=0.25, width=140, height=30)
-        self.pedidos.place(relx=0.1, rely=0.5, width=140, height=30)
-        self.comprobantes.place(relx=0.1, rely=0.75, width=140, height=30)
+        self.etiquetaUS.place(relx=0.1, rely=0.1, width=140, height=30)
+        self.perfil.place(relx=0.1, rely=0.3, width=140, height=30)
+        self.direccion.place(relx=0.1, rely=0.5, width=140, height=30)
+        self.pedidos.place(relx=0.1, rely=0.7, width=140, height=30)
+        self.comprobantes.place(relx=0.1, rely=0.9, width=140, height=30)
 
         #creo el panel notebook
         self.panel=ttk.Notebook(self.frame3, style="TNotebook")
@@ -79,24 +89,58 @@ class Cuenta():
         self.titulo.pack(expand=1)
 
         #Ventana perfil
+        self.sNombre=StringVar(self.p2)
+        self.sDni=IntVar(self.p2)
+        self.sCorreo=StringVar(self.p2)
+
         self.nombre=tk.Label(self.p2, text="Nombre")
-        self.nombre.pack(expand=1)
-
+        self.nombreEntry=tk.Entry(self.p2, textvariable=self.sNombre)
         self.dni=tk.Label(self.p2, text="DNI")
-        self.dni.pack(expand=1)
-
+        self.dniEntry=tk.Entry(self.p2, textvariable=self.sDni)
         self.correo=tk.Label(self.p2, text="Correo Electronico")
-        self.correo.pack(expand=1)
-
+        self.correoEntry=tk.Entry(self.p2, textvariable=self.sCorreo)
         self.editar=tk.Button(self.p2, text="Editar", command=self.irRegistro)
-        self.editar.pack(expand=1)
+
+        self.nombre.grid(row=0,column=0,ipadx=2, ipady=2, pady=2)
+        self.nombreEntry.grid(row=1,column=0,ipadx=2, ipady=2,pady=2)
+        self.dni.grid(row=2,column=0,ipadx=2, ipady=2,pady=2)
+        self.dniEntry.grid(row=3,column=0,ipadx=2, ipady=2,pady=2)
+        self.correo.grid(row=4,column=0,ipadx=2, ipady=2,pady=2)
+        self.correoEntry.grid(row=5,column=0,ipadx=2, ipady=2,pady=2)
+        self.editar.grid(row=6,column=0,ipadx=2, ipady=2,pady=2)
 
         #Ventana Direccion
-        self.dir=tk.Label(self.p3, text="Direccion")
-        self.dir.pack(expand=1)
+        self.sCalle=StringVar(self.p3)
+        self.sAltura=IntVar(self.p3)
+        self.sLocalidad=StringVar(self.p3)
+        self.sProvincia=StringVar(self.p3)
+        self.sPostal=StringVar(self.p3)
 
+        self.dir=tk.Label(self.p3, text="Direccion de Usuario")
+        self.calle=tk.Label(self.p3, text="Calle")
+        self.calleEntry=tk.Entry(self.p3, textvariable=self.sCalle)
+        self.altura=tk.Label(self.p3, text="Altura")
+        self.alturaEntry=tk.Entry(self.p3, textvariable=self.sAltura)
+        self.localidad=tk.Label(self.p3, text="Localidad")
+        self.localidadEntry=tk.Entry(self.p3, textvariable=self.sLocalidad)
+        self.provincia=tk.Label(self.p3,text="Provincia")
+        self.provinciaEntry=tk.Entry(self.p3, textvariable=self.sProvincia)
+        self.postal=tk.Label(self.p3,text="Codigo Postal")
+        self.postalEntry=tk.Entry(self.p3, textvariable=self.sPostal)
         self.editar=tk.Button(self.p3, text="Editar", command=self.editDir)
-        self.editar.pack(expand=1)
+        
+        self.dir.grid(row=0,column=0,ipadx=2, ipady=2,pady=2)
+        self.calle.grid(row=1,column=0,ipadx=2, ipady=2,pady=2)
+        self.calleEntry.grid(row=2,column=0,ipadx=2, ipady=2,pady=2)
+        self.altura.grid(row=3,column=0,ipadx=2, ipady=2,pady=2)
+        self.alturaEntry.grid(row=4,column=0,ipadx=2, ipady=2,pady=2)
+        self.localidad.grid(row=5,column=0,ipadx=2, ipady=2,pady=2)
+        self.localidadEntry.grid(row=6,column=0,ipadx=2, ipady=2,pady=2)
+        self.provincia.grid(row=7,column=0,ipadx=2, ipady=2,pady=2)
+        self.provinciaEntry.grid(row=8,column=0,ipadx=2, ipady=2,pady=2)
+        self.postal.grid(row=9,column=0,ipadx=2, ipady=2,pady=2)
+        self.postalEntry.grid(row=10,column=0,ipadx=2, ipady=2,pady=2)
+        self.editar.grid(row=11,column=0,ipadx=2, ipady=2,pady=2)
         
         #Ventana Pedidos
         self.pedidos=tk.Label(self.p4, text="Listado de Pedidos")
@@ -127,13 +171,19 @@ class Cuenta():
     def pantallaComprobantes(self):
         self.panel.select([self.p5])
     
+    def mostrarDir(self):
+        pass
+
     def irRegistro(self):
         v=Registro(tk.Tk(), "Editar Datos", "Edicion",  "Super Market \n Perfil Usuario" )
 
     def editDir(self):
-        pass
+        v=VentanaDir(tk.Tk())
 
+'''
 if __name__ == "__main__":
     root = tk.Tk()
-    app=Cuenta(root)
+    cliente=Cliente(0,"","",0,"")
+    app=Cuenta(root,cliente,correo)
     root.mainloop()
+'''

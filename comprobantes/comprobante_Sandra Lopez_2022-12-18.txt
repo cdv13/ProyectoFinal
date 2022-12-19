@@ -1,0 +1,15 @@
+               SumerMarket 
+               Cracias por su compra
+
+N de Factura: 18    Cliente: Sandra Lopez    Fecha 2022/12/18
+
+        +------------------------------------------------------------+
+        | Descripcion        Cantidad  Precio    SubTotal  Total     |
+        +------------------------------------------------------------+
+        | Mayonesa Natura 250 cc         3     150.0     450.0             |
+| Vinagre de Alcohol Menoyo 1 Lt         3      98.0     294.0             |
+| Yerba VerdeFlor 500 gr
+         3     400.0    1200.0             |                                                           
+        +------------------------------------------------------------+        
+|                                                 1944.0     |
++------------------------------------------------------------+

@@ -4,10 +4,12 @@ import tkinter.font as tkFont
 from tkinter import messagebox
 
 from cargaproducto import Carga
-
+#importacion de modulos propios
+from pathlib import Path
 import sys
-sys.path.append('d:\\00_CURSOS\\2022_Curso_Python_SALTA\\ProyectoFinal\\clases')
-from producto import Producto
+sys.path.append(str(Path(__file__).parent.parent))
+from clases.producto import Producto
+
 
 class Lista(tk.Frame):
     def __init__(self, root):
@@ -94,14 +96,13 @@ class Lista(tk.Frame):
         for fila in filas:
             self.tree.insert("",tk.END,text=fila[0], values= (fila[1], fila[2], fila[3], fila[4], fila[5]) )
 
-    #uso la misma ventana de carga.... 
+    
     def editarProducto(self):
         item=self.tree.focus()
         datos=self.tree.item(item)["values"]
         text=self.tree.item(item)["text"] #Para que me ponga el id
         datos.insert(0,text)
-        #print("viejo",datos)
-        
+        print("0_",datos)
         v=Carga(tk.Tk(),"Producto", "Editar Producto", self, datos)
         v.Guardar.config(state="disable")
         v.idEntry.config(state="disable")
@@ -116,7 +117,7 @@ class Lista(tk.Frame):
             self.mostrarProd()
         else:
             messagebox.showinfo("BBDD", "Debe seleccionar un Registro")
-        #print(item)
+        
         
     def agregarNuevo(self):
         v=Carga(tk.Tk(), "Nuevo Producto", "Cargar de Producto", self)
@@ -124,8 +125,9 @@ class Lista(tk.Frame):
         v.idEntry.config(state="disable")
         
 
-
+'''
 if __name__ == "__main__":
     root = tk.Tk()
     app=Lista(root)
     root.mainloop()
+'''
